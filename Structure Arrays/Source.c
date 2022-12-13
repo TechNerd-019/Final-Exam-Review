@@ -1,5 +1,8 @@
+#define _CRT_SECURE_NO_WARNINGS
+#define MAXLENGTH              4
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 typedef struct milk
 {
@@ -7,47 +10,62 @@ typedef struct milk
 	char brand[25];
 }MILK;
 
+void initializeArray(MILK*, int);
 void addMilk(MILK*, char[], char[]);
 void removeMilk(MILK*, char[], char[]);
-void printMilk(MILK[]);
+void printMilk(MILK[], int);
 
 int main(void)
 {
-	MILK stock[4];
-	char milk1[] = {"Almond"};
-	char milk2[] = {"Soy"};
-	char milk3[] = {"Cow"};
+	MILK stock[MAXLENGTH];
+    int size = MAXLENGTH;
 
-	char milk1Brand[] = {"Silk"};
-	char milk2Brand[] = {"Kirkland"};
-	char milk3Brand[] = {"Lala"};
+	for (int i = 0; i < size; i++)
+	{
+		initializeArray(&stock[i], size);
+	}
 
-	addMilk(&stock[0], &milk1, &milk1Brand);
-	addMilk(&stock[1], &milk2, &milk2Brand);
-	addMilk(&stock[2], &milk3, &milk3Brand);
+	char milk1[] = { "Almond" };
+	char milk2[] = { "Soy" };
+	char milk3[] = { "Cow" };
 
-	removeMilk(&stock[0], &milk1, &milk1Brand);
-	printMilk(stock);
+	char milk1Brand[] = { "Silk" };
+	char milk2Brand[] = { "Kirkland" };
+	char milk3Brand[] = { "Lala" };
+
+	addMilk(&stock[0], milk1, milk1Brand);
+	addMilk(&stock[1], milk2, milk2Brand);
+	addMilk(&stock[2], milk3, milk3Brand);
+
+	removeMilk(&stock[0], milk1, milk1Brand);
+	printMilk(stock, size);
 	return 0;
+}
+
+void initializeArray(MILK* stock, int size)
+{
+	strncpy(stock->type, " ", 2);
+	strncpy(stock->brand, " ", 2);
+	return;
 }
 
 void addMilk(MILK* selectedStock, char selectedMilk[], char selectedMilkBrand[])
 {
-	*(selectedStock)->type = selectedMilk;
-	*(selectedStock)->brand = selectedMilkBrand;
+	strcpy(selectedStock->type, selectedMilk);
+	strcpy(selectedStock->brand, selectedMilkBrand);
 	return;
 }
 
 void removeMilk(MILK* selectedStock, char selectedMilk[], char selectedMilkBrand[])
 {
-	*(selectedStock)->type = '\0';
-	*(selectedStock)->brand = '\0';
+	strncpy(selectedStock->type," ", 2);
+	strncpy(selectedStock->brand," ", 2);
 	return;
 }
 
-void printMilk(MILK stock[])
+void printMilk(MILK stock[], int size)
 {
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < size; i++)
 	{
 		printf("%s", stock[i].type);
 		puts("");
